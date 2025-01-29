@@ -27,7 +27,7 @@ jobs:
     release:
         name: Criando a release
         runs-on: ubuntu-latest
-        needs: build
+        needs: testes
         steps:
             - name: Obtendo código do projeto
               uses: actions/checkout@v4
