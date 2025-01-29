@@ -20,9 +20,9 @@ jobs:
             - name: Executando dotnet build
               working-directory: ./src
               run: dotnet build Review-Filmes.sln
-    # testes:
-    #     needs: build
-    #     uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
+    testes:
+        needs: build
+        uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
 
     release:
         name: Criando a release
