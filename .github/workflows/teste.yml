@@ -1,23 +1,6 @@
 name : Executando Testes
 on:
     workflow_call:
-        inputs:
-            workflow_id:
-                type: string
-                required: true
-            workflow_file:
-                type: string
-                required: true
-            workflow_ref:
-                type: string
-                required: true
-            inputs:
-                type: string
-                required: true
-            token:
-                type: string
-                required: true
-
 jobs:
     unit-tests:
         name: Teste de Unidade

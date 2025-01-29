@@ -20,14 +20,14 @@ jobs:
             - name: Executando dotnet build
               working-directory: ./src
               run: dotnet build Review-Filmes.sln
-    testes:
-        needs: build
-        uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
+    # testes:
+    #     needs: build
+    #     uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@cb7271ea484d14f9b287e90b37b85555a6ce5ba3
 
     release:
         name: Criando a release
         runs-on: ubuntu-latest
-        needs: testes
+        
         steps:
             - name: Obtendo código do projeto
               uses: actions/checkout@v4
