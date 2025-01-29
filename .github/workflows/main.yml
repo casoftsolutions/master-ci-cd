@@ -8,7 +8,7 @@ on:
 
 jobs:
     build:
-        name: Executando build da aplicação
+        name: Executando build
         runs-on: ubuntu-latest
         steps:
             - name: Obtendo código do projeto
@@ -20,6 +20,10 @@ jobs:
             - name: Executando dotnet build
               working-directory: ./src
               run: dotnet build Review-Filmes.sln
+    # testes:
+    #     needs: build
+    #     uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
+
     release:
         name: Criando a release
         runs-on: ubuntu-latest
