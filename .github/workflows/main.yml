@@ -8,7 +8,7 @@ on:
 
 jobs:
     build:
-        name: Build
+        name: Executando build da aplicação
         runs-on: ubuntu-latest
         steps:
             - name: Obtendo código do projeto
@@ -20,3 +20,24 @@ jobs:
             - name: Executando dotnet build
               working-directory: ./src
               run: dotnet build Review-Filmes.sln
+    release:
+        name: Criando a release
+        runs-on: ubuntu-latest
+        needs: build
+        steps:
+            - name: Obtendo código do projeto
+              uses: actions/checkout@v4
+            - name: Efetuando login no Docker Hub
+              uses: docker/login-action@v3
+              with:
+                username: ${{ secrets.DOCKER_USERNAME }}
+                password: ${{ secrets.DOCKER_PASSWORD }}
+            - name: Build da imagem Docker
+              uses: docker/build-push-action@v3
+              with:
+                context: ./src
+                file: ./src/Review-Filmes.Web/Dockerfile
+                push: true
+                tags: |
+                    ${{ secrets.DOCKER_USERNAME }}/review-filmes-master:latest
+                    ${{ secrets.DOCKER_USERNAME }}/review-filmes-master:v${{ github.run_number }}
