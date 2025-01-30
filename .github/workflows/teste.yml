@@ -63,12 +63,10 @@ jobs:
 
             - name: Build e Analise
               working-directory: ./src
-              env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               run: |
-                dotnet sonarscanner begin /o:"casoftsolutions" /k:"casoftsolutions_master-ci-cd" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="$SONAR_TOKEN"
+                dotnet sonarscanner begin /o:"casoftsolutions" /k:"casoftsolutions_master-ci-cd" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="235442d99a38f425393415d265b1810cd0d316f5"
                 dotnet build Review-Filmes.sln 
-                dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
+                dotnet sonarscanner end /d:sonar.token="235442d99a38f425393415d265b1810cd0d316f5"
           
             # - name: Analise de qualidade
             #   uses: sonarsource/sonarcloud-github-action@master
