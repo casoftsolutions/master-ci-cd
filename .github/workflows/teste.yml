@@ -19,7 +19,6 @@ jobs:
     integrations-testes:
         name: Teste de Integração
         runs-on: ubuntu-latest
-        needs: unit-tests
         services:
             postgres:
                 image: postgres:latest # boas praticas é usar versao especifica, mas é somente uma demo
@@ -41,3 +40,30 @@ jobs:
               run: dotnet test ./Review-Filmes.Test.Integration/Review-Filmes.Test.Integration.csproj
               env:
                 ConnectionStrings__DefaultConnection: "Host=localhost;Port=5432;Database=review-filmes;Username=review;Password=123456" 
+
+    sonar-qube:
+        name: Scan SonarQube
+        runs-on: ubuntu-latest
+        steps:
+            - name: Obtendo código do projeto
+              uses: actions/checkout@v4
+            - name: Setup dotnet
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 8.0.300  
+            - name: Set up JDK 17
+              uses: actions/setup-java@v4
+              with:
+                    java-version: 17
+                    distribution: 'zulu' 
+            - name: Intalação do SonarQube
+              run: dotnet tool install --global dotnet-sonarscanner    
+            - name: Build e Analise
+              working-directory: ./src
+              run: |
+                dotnet sonarscanner begin /k:"casoftsolutions_master-ci-cd" /o:"casoftsolutions" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+                dotnet build Review-Filmes.sln
+                dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+
+# Obs: por serem teste, nao precisa usar needs entre eles, pois se um falhar, já vai para a execucao da pipeline                    
