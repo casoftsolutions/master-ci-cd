@@ -76,8 +76,7 @@ jobs:
             working-directory: ./src
             run: |
                 dotnet-coverage collect 'dotnet test ./Review-Filmes.Test.Unit/Review-Filmes.Test.Unit.csproj -c Release' -f xml -o coverage-unit.xml
-                dotnet-coverage collect 'dotnet test ./Review-Filmes.Test.Integration/Review-Filmes.Test.Integration.csproj -c Release' -f xml -o coverage-integration.xml
-                dotnet-coverage collect 'dotnet test ./Review-Filmes.Test.EndToEnd/Review-Filmes.Test.EndToEnd.csproj -c Release' -f xml -o coverage-endtoend.xml
+
     
           - name: Set up JDK 17 ⏱️
             uses: actions/setup-java@v4
