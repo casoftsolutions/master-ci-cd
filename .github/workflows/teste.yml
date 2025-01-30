@@ -89,7 +89,11 @@ jobs:
             run: |
               mkdir -p .sonar/scanner
               dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
-    
+
+          - name: Install SonarScanner
+            working-directory: ./src
+            run: dotnet tool install --global dotnet-sonarscanner
+
           - name: Build and analyze  👀🐞
             env:
               GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
