@@ -48,7 +48,7 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                 context: ./src
-                file: ./src/Review-Filmes.Web/Dockerfile
+                file: ./src/Review-Filmes.Web/Dockerfile .
                 push: true
                 tags: |
                     ${{ secrets.DOCKER_USERNAME }}/review-filmes-master:latest
@@ -57,14 +57,12 @@ jobs:
             - name: Run Trivy vulnerability scanner
               uses: aquasecurity/trivy-action@0.28.0
               with:
-                scan-type: 'image'
-                image-ref: cesarags/review-filmes-master:v${{ github.run_number }}
+                image-ref: ${{ secrets.DOCKER_USERNAME }}/review-filmes-master:v${{ github.run_number }}
                 format: sarif
-                output: trivy-docker-result.sarif
+                output: 'trivy-results.sarif'
                 severity: 'CRITICAL,HIGH,MEDIUM,LOW,UNKNOWN'
             
-            - name: Upload do resultado do Trivy
+            - name: Upload Trivy scan results to GitHub Security tab
               uses: github/codeql-action/upload-sarif@v3
               with:
-                category: docker-result
-                sarif_file: trivy-docker-result.sarif
+                  sarif_file: 'trivy-results.sarif
