@@ -59,9 +59,11 @@ jobs:
                 dotnet-version: 8.0.300   
 
             - name: Instalação do dotnet-coverage
+              working-directory: ./src
               run: dotnet tool install --global dotnet-coverage
 
             - name: Intalação do SonarQube
+              working-directory: ./src
               run: dotnet tool install --global dotnet-sonarscanner   
 
             - name: Build e Analise
