@@ -100,7 +100,7 @@ jobs:
               dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
     
           - name: Debug Sonar Token 🔍
-            run: echo "Sonar Token Length: ${#SONAR_TOKEN}"
+            run: "echo Sonar Token Length: ${#SONAR_TOKEN}"
             env:
               SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     
