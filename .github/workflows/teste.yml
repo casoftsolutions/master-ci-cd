@@ -3,7 +3,7 @@ on:
     workflow_call:
 jobs:
     unit-tests:
-        name: Teste de Unidade
+        name: Teste de Unidade 🧪
         runs-on: ubuntu-latest
         steps:
             - name: Obtendo código do projeto
@@ -69,12 +69,8 @@ jobs:
     
           - name: Building Application 🚀
             working-directory: ./src  
-            run: dotnet build -c Release --no-restore 
+            run: dotnet build  Review-Filmes.sln -c Release --no-restore 
                   
-          - name: Running Unit Tests 🧪
-            working-directory: ./src  
-            run: dotnet test -c Release --no-build
-    
           - name: Set up JDK 17 ⏱️
             uses: actions/setup-java@v4
             with:
