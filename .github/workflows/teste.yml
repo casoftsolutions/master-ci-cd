@@ -64,7 +64,7 @@ jobs:
             - name: Build e Analise
               working-directory: ./src
               run: |
-                dotnet sonarscanner begin /o:"casoftsolutions" /k:"casoftsolutions_master-ci-cd" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }} ReportFile: .src/.sonarqube/.sonar/report-task.txt"
+                dotnet sonarscanner begin /o:"casoftsolutions" /k:"casoftsolutions_master-ci-cd" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
                 dotnet build Review-Filmes.sln 
                 dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
           
