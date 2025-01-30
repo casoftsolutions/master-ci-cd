@@ -1,14 +1,24 @@
-name : Deploy
+name : Deploy no kuerbenetes
 on:
     workflow_call:
 jobs:
-    unit-tests:
-        name: Teste de Unidade
+    deploy:
+        name: Deploy
         runs-on: ubuntu-latest
         steps:
             - name: Obtendo código do projeto
               uses: actions/checkout@v4
-            - name: Setup dotnet
-              uses: actions/setup-dotnet@v4
+
+            - name: Donfiguração k8s contexto
+              uses: Azure/k8s-set-context@v4
               with:
-                  dotnet-version: 8.0.300
+                method: kubeconfig
+                kubeconfig: ${{ secrets.K8S_CONFIG }}
+
+            - name: Deploy no k8s
+              uses: Azure/k8s-deploy@v5
+              with:
+                manifests: |
+                    k8s/deployment.yaml
+                images: |
+                    ${{ secrets.DOCKER_USERNAME }}/review-filmes-master:v${{ github.run_number }}

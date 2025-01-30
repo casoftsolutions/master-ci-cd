@@ -68,3 +68,8 @@ jobs:
               uses: github/codeql-action/upload-sarif@v3
               with:
                   sarif_file: trivy-results.sarif
+
+    deploy-homologacao:
+            needs: release
+            uses: casoftsolutions/master-ci-cd/.github/workflows/deploy.yml@main
+            secrets: inherit
