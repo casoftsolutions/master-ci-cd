@@ -51,11 +51,11 @@ jobs:
               uses: actions/setup-dotnet@v4
               with:
                   dotnet-version: 8.0.300  
-            - name: Set up JDK 17
+            - name: Set up JDK
               uses: actions/setup-java@v4
               with:
-                    java-version: 17
-                    distribution: 'zulu' 
+                    java-version: '21'
+                    distribution: 'adopt' 
             - name: Intalação do SonarQube
               run: dotnet tool install --global dotnet-sonarscanner    
             - name: Build e Analise
