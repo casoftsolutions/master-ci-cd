@@ -68,9 +68,11 @@ jobs:
             run: dotnet restore Review-Filmes.sln --force --no-cache
     
           - name: Building Application 🚀
+            working-directory: ./src  
             run: dotnet build -c Release --no-restore 
                   
           - name: Running Unit Tests 🧪
+            working-directory: ./src  
             run: dotnet test -c Release --no-build
     
           - name: Set up JDK 17 ⏱️
