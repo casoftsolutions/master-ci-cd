@@ -60,7 +60,7 @@ jobs:
                 scan-type: 'image'
                 image-ref: 'cesarags/review-filmes-master:v${{ github.run_number }}'
                 format: 'sarif'
-                output: 'trivy-docker.sarif'
+                output: 'trivy-docker-result.sarif'
                 severity: 'CRITICAL,HIGH,MEDIUM,LOW,UNKNOWN'
             
             - name: Upload do resultado do Trivy
