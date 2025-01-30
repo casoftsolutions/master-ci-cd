@@ -48,7 +48,7 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                 context: ./src
-                file: ./src/Review-Filmes.Web/Dockerfile .
+                file: ./src/Review-Filmes.Web/Dockerfile
                 push: true
                 tags: |
                     ${{ secrets.DOCKER_USERNAME }}/review-filmes-master:latest
