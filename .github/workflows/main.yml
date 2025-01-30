@@ -7,21 +7,21 @@ on:
             - main
 
 jobs:
-    # build:
-    #     name: Executando build
-    #     runs-on: ubuntu-latest
-    #     steps:
-    #         - name: Obtendo código do projeto
-    #           uses: actions/checkout@v4
-    #         - name: Setup dotnet
-    #           uses: actions/setup-dotnet@v4
-    #           with:
-    #               dotnet-version: 8.0.300
-    #         - name: Executando dotnet build
-    #           working-directory: ./src
-    #           run: dotnet build Review-Filmes.sln
+    build:
+        name: Executando build
+        runs-on: ubuntu-latest
+        steps:
+            - name: Obtendo código do projeto
+              uses: actions/checkout@v4
+            - name: Setup dotnet
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 8.0.300
+            - name: Executando dotnet build
+              working-directory: ./src
+              run: dotnet build Review-Filmes.sln
     testes:
-        #needs: build
+        needs: build
         uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
         secrets: inherit
 
