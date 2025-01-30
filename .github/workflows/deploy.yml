@@ -1,0 +1,14 @@
+name : Deploy
+on:
+    workflow_call:
+jobs:
+    unit-tests:
+        name: Teste de Unidade
+        runs-on: ubuntu-latest
+        steps:
+            - name: Obtendo código do projeto
+              uses: actions/checkout@v4
+            - name: Setup dotnet
+              uses: actions/setup-dotnet@v4
+              with:
+                  dotnet-version: 8.0.300

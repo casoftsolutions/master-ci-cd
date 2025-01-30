@@ -20,15 +20,15 @@ jobs:
             - name: Executando dotnet build
               working-directory: ./src
               run: dotnet build Review-Filmes.sln
-    # testes:
-    #     needs: build
-    #     uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
-    #     secrets: inherit
+    testes:
+        needs: build
+        uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
+        secrets: inherit
 
     release:
         name: Criando a release
         runs-on: ubuntu-latest
-        #needs: testes
+        needs: testes
         permissions:
             security-events: write  # Permissão para publicar na aba de segurança
         steps:
