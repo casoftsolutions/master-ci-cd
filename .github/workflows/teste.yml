@@ -63,7 +63,8 @@ jobs:
             with:
                 dotnet-version: ${{ env.DOTNET_VERSION }}   
     
-          - name: Restoring dependencies ⏱️      
+          - name: Restoring dependencies ⏱️    
+            working-directory: ./src  
             run: dotnet restore --force --no-cache
     
           - name: Building Application 🚀
