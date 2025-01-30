@@ -102,7 +102,7 @@ jobs:
               .sonar/scanner/dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
           - name: "SonarQube Quality Gate Status:"
-              run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+            run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
 
 
 # Obs: por serem teste, nao precisa usar needs entre eles, pois se um falhar, já vai para a execucao da pipeline                    
