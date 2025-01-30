@@ -54,16 +54,38 @@ jobs:
             - name: Set up JDK
               uses: actions/setup-java@v4
               with:
-                    java-version: 21
-                    distribution: 'adopt' 
-            - name: Intalação do SonarQube
-              run: dotnet tool install --global dotnet-sonarscanner    
-            - name: Build e Analise
-              working-directory: ./src
+                    java-version: 17
+                    distribution: 'zulu'
+            - uses: actions/checkout@v4
+              with:
+                fetch-depth: 0
+            - name: Cache SonarQube Cloud packages
+              uses: actions/cache@v4
+              with:
+                path: ~\sonar\cache
+                key: ${{ runner.os }}-sonar
+                restore-keys: ${{ runner.os }}-sonar
+            - name: Cache SonarQube Cloud scanner
+              id: cache-sonar-scanner
+              uses: actions/cache@v4
+              with:
+                path: .\.sonar\scanner
+                key: ${{ runner.os }}-sonar-scanner
+                restore-keys: ${{ runner.os }}-sonar-scanner
+            - name: Install SonarQube Cloud scanner
+              if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+              shell: powershell
               run: |
-                dotnet sonarscanner begin /k:"casoftsolutions_master-ci-cd" /o:"casoftsolutions" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-                dotnet build Review-Filmes.sln
-                dotnet sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+                New-Item -Path .\.sonar\scanner -ItemType Directory
+                dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+            - name: Build and analyze
+              env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              shell: powershell
+              run: |
+                .\.sonar\scanner\dotnet-sonarscanner begin /k:"casoftsolutions_master-ci-cd" /o:"casoftsolutions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+                dotnet build
+                .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
 
 # Obs: por serem teste, nao precisa usar needs entre eles, pois se um falhar, já vai para a execucao da pipeline                    
