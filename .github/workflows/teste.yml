@@ -65,7 +65,7 @@ jobs:
     
           - name: Restoring dependencies ⏱️    
             working-directory: ./src  
-            run: dotnet restore --force --no-cache
+            run: dotnet restore Review-Filmes.sln --force --no-cache
     
           - name: Building Application 🚀
             run: dotnet build -c Release --no-restore 
