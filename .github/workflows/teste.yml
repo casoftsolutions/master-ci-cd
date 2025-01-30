@@ -45,47 +45,70 @@ jobs:
         name: Scan SonarQube
         runs-on: ubuntu-latest
         steps:
-            - name: Obtendo código do projeto
-              uses: actions/checkout@v4
-            - name: Setup dotnet
-              uses: actions/setup-dotnet@v4
-              with:
-                  dotnet-version: 8.0.300  
-            - name: Set up JDK
-              uses: actions/setup-java@v4
-              with:
-                    java-version: 17
-                    distribution: 'zulu'
-            - uses: actions/checkout@v4
-              with:
-                fetch-depth: 0
-            - name: Cache SonarQube Cloud packages
-              uses: actions/cache@v4
-              with:
-                path: ~\sonar\cache
-                key: ${{ runner.os }}-sonar
-                restore-keys: ${{ runner.os }}-sonar
-            - name: Cache SonarQube Cloud scanner
-              id: cache-sonar-scanner
-              uses: actions/cache@v4
-              with:
-                path: .\.sonar\scanner
-                key: ${{ runner.os }}-sonar-scanner
-                restore-keys: ${{ runner.os }}-sonar-scanner
-            - name: Install SonarQube Cloud scanner
-              if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
-              shell: powershell
-              run: |
-                New-Item -Path .\.sonar\scanner -ItemType Directory
-                dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
-            - name: Build and analyze
-              env:
+          - name: Configure Encoding 💻
+            run: |
+              export DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
+              export LANG=en_US.UTF-8
+          
+          - name: Installing coverage ⏱️
+            run: dotnet tool install --global dotnet-coverage
+    
+          - name: Checkout to main ⏱️
+            uses: actions/checkout@v4.1.1
+            with:
+                 fetch-depth: 0
+    
+          - name: Configuring .NET Core SDK ⏱️ 
+            uses: actions/setup-dotnet@v4.0.0
+            with:
+                dotnet-version: ${{ env.DOTNET_VERSION }}   
+    
+          - name: Restoring dependencies ⏱️      
+            run: dotnet restore --force --no-cache
+    
+          - name: Building Application 🚀
+            run: dotnet build -c Release --no-restore 
+                  
+          - name: Running Unit Tests 🧪
+            run: dotnet test -c Release --no-build
+    
+          - name: Set up JDK 17 ⏱️
+            uses: actions/setup-java@v4
+            with:
+              java-version: 17
+              distribution: 'zulu' # Alternative distribution options are available.
+          - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+    
+          - name: Cache SonarQube Cloud packages ⏳
+            uses: actions/cache@v4
+            with:
+              path: ~/.sonar/cache
+              key: ${{ runner.os }}-sonar
+              restore-keys: ${{ runner.os }}-sonar
+    
+          - name: Cache SonarQube Cloud scanner ⏳
+            id: cache-sonar-scanner
+            uses: actions/cache@v4
+            with:
+              path: .sonar/scanner
+              key: ${{ runner.os }}-sonar-scanner
+              restore-keys: ${{ runner.os }}-sonar-scanner
+    
+          - name: Install SonarQube Cloud scanner 🛠️
+            if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+            run: |
+              mkdir -p .sonar/scanner
+              dotnet tool update dotnet-sonarscanner --tool-path .sonar/scanner
+
+          - name: Build and analyze  👀🐞
+            env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-              shell: powershell
-              run: |
+            run: |
                 .\.sonar\scanner\dotnet-sonarscanner begin /k:"casoftsolutions_master-ci-cd" /o:"casoftsolutions" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-                dotnet build
+                  dotnet build --configuration Release
+                  dotnet-coverage collect 'dotnet test' -f xml -o 'coverage.xml'
                 .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-
-
 # Obs: por serem teste, nao precisa usar needs entre eles, pois se um falhar, já vai para a execucao da pipeline                    
