@@ -56,6 +56,7 @@ jobs:
               export LANG=en_US.UTF-8
     
           - name: Install .NET Coverage Tool ⏱️
+            working-directory: ./src
             run: dotnet tool install --global dotnet-coverage
     
           - name: Configuring .NET Core SDK ⏱️ 
@@ -63,13 +64,16 @@ jobs:
             with:
               dotnet-version: 8.0.300  # Certifique-se de usar a versão correta
     
-          - name: Restoring dependencies ⏱️    
+          - name: Restoring dependencies ⏱️  
+            working-directory: ./src  
             run: dotnet restore Review-Filmes.sln --force --no-cache
     
           - name: Building Application 🚀
+            working-directory: ./src
             run: dotnet build Review-Filmes.sln -c Release --no-restore 
     
           - name: Run Unit Tests with Coverage
+            working-directory: ./src
             run: dotnet-coverage collect 'dotnet test -c Release' -f xml -o coverage.xml
     
           - name: Set up JDK 17 ⏱️
