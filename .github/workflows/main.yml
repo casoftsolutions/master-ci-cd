@@ -29,6 +29,8 @@ jobs:
         name: Criando a release
         runs-on: ubuntu-latest
         #needs: testes
+        permissions:
+            security-events: write  # Permissão para publicar na aba de segurança
         steps:
             - name: Obtendo código do projeto
               uses: actions/checkout@v4
