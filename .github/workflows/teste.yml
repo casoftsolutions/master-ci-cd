@@ -71,7 +71,7 @@ jobs:
             - name: Analise de Quality Gate
               uses: sonarsource/sonarqube-quality-gate-action@master
               env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                SONAR_TOKEN: 235442d99a38f425393415d265b1810cd0d316f5
                 GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}   
               with:
                 scanMetadataReportFile: .src/.sonarqube/.sonar/report-task.txt
