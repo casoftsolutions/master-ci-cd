@@ -66,7 +66,7 @@ jobs:
               env:
                 SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
               run: |
-                dotnet sonarscanner begin o:"casoftsolutions" k:"casoftsolutions_master-ci-cd" d:sonar.host.url="https://sonarcloud.io" d:sonar.token="#SONAR_TOKEN"
+                dotnet sonarscanner begin o:"casoftsolutions" k:"casoftsolutions_master-ci-cd" d:sonar.host.url="https://sonarcloud.io" d:sonar.token="$SONAR_TOKEN"
                 dotnet build Review-Filmes.sln 
                 dotnet sonarscanner end /d:sonar.token="$SONAR_TOKEN"
           
