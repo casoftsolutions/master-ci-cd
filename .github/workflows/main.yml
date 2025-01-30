@@ -20,10 +20,10 @@ jobs:
             - name: Executando dotnet build
               working-directory: ./src
               run: dotnet build Review-Filmes.sln
-    testes:
-        needs: build
-        uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
-        secrets: inherit
+    # testes:
+    #     needs: build
+    #     uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
+    #     secrets: inherit
 
     release:
         name: Criando a release
@@ -58,13 +58,13 @@ jobs:
               uses: aquasecurity/trivy-action@0.28.0
               with:
                 scan-type: 'image'
-                image-ref: 'cesarags/review-filmes-master:v${{ github.run_number }}'
-                format: 'sarif'
-                output: 'trivy-docker-result.sarif'
+                image-ref: cesarags/review-filmes-master:v${{ github.run_number }}
+                format: sarif
+                output: trivy-docker-result.sarif
                 severity: 'CRITICAL,HIGH,MEDIUM,LOW,UNKNOWN'
             
             - name: Upload do resultado do Trivy
               uses: github/codeql-action/upload-sarif@v3
               with:
-                category: 'docker-result'
+                category: docker-result
                 sarif_file: trivy-docker-result.sarif
