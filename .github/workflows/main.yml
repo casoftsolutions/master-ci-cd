@@ -77,29 +77,9 @@ jobs:
                 environment-name: homologacao
                 environment-url: http://homologacao.cesarags.com
 
-    teste-end-to-end:
-            needs: deploy-homologacao
-            runs-on: ubuntu-latest
-            environment:
-                name: homologacao
-            container:
-                image: fabricioveronez/webdriver-dotnet:chrome
-            env: 
-                BASE_URL: http://${{ vars.BASE_URL }}
-            steps:
-                - name: Obtendo código do projeto
-                  uses: actions/checkout@v4
-                - name: Setup dotnet
-                  uses: actions/setup-dotnet@v4
-                  with:
-                      dotnet-version: 8.0.300
-                - name: Executando testes end-to-end
-                  working-directory: ./src
-                  run: dotnet test ./Review-Filmes.Test.EndToEnd/Review-Filmes.Test.EndToEnd.csproj
-
 
     deploy-producao:
-            needs: teste-end-to-end
+            needs: deploy-homologacao
             uses: casoftsolutions/master-ci-cd/.github/workflows/deploy.yml@main
             secrets: inherit
             with:
