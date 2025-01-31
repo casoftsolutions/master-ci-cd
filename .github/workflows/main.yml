@@ -99,7 +99,7 @@ jobs:
 
 
     deploy-producao:
-            needs: deploy-homologacao
+            needs: teste-end-to-end
             uses: casoftsolutions/master-ci-cd/.github/workflows/deploy.yml@main
             secrets: inherit
             with:
