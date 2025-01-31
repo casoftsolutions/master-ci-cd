@@ -8,24 +8,6 @@ on:
 
 jobs:
     build:
-        name: Executando build
-        runs-on: ubuntu-latest
-        steps:
-            - name: Obtendo código do projeto
-              uses: actions/checkout@v4
-            - name: Setup dotnet
-              uses: actions/setup-dotnet@v4
-              with:
-                  dotnet-version: 8.0.300
-            - name: Executando dotnet build
-              working-directory: ./src
-              run: dotnet build Review-Filmes.sln
-    # testes:
-    #     needs: build
-    #     uses: casoftsolutions/master-ci-cd/.github/workflows/teste.yml@main
-    #     secrets: inherit
-
-    release:
         name: Criando a release
         runs-on: ubuntu-latest
         #needs: testes
@@ -70,7 +52,7 @@ jobs:
                   sarif_file: trivy-results.sarif
 
     deploy-homologacao:
-            needs: release
+            needs: build
             uses: casoftsolutions/master-ci-cd/.github/workflows/deploy.yml@main
             secrets: inherit
             with:
@@ -83,7 +65,7 @@ jobs:
             environment:
                 name: homologacao
             container:
-                image: fabriziopandini/webdriver-dotnet:chrome
+                image: fabricioveronez/webdriver-dotnet:chrome
             env: 
                 BASE_URL: http://${{ vars.BASE_URL }}
             steps:
