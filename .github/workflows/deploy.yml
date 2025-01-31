@@ -25,9 +25,13 @@ jobs:
                 method: kubeconfig
                 kubeconfig: ${{ secrets.K8S_CONFIG }}
 
+            - name: Updated deployment
+              run: "seed -i 's/host: homologacao.cesarags.com/host: ${{ vars.BASE_URL}}/g' k8s/deployment.yaml"
+
             - name: Deploy no k8s
               uses: Azure/k8s-deploy@v5
               with:
+                namespace: ${{ secrets.K8S_NAMESPACE }}
                 manifests: |
                     k8s/deployment.yaml
                 images: |

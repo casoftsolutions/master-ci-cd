@@ -76,3 +76,11 @@ jobs:
             with:
                 environment-name: homologacao
                 environment-url: http://homologacao.cesarags.com
+
+    deploy-producao:
+            needs: release
+            uses: casoftsolutions/master-ci-cd/.github/workflows/deploy.yml@main
+            secrets: inherit
+            with:
+                environment-name: producao
+                environment-url: http://producao.cesarags.com
