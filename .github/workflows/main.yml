@@ -73,3 +73,6 @@ jobs:
             needs: release
             uses: casoftsolutions/master-ci-cd/.github/workflows/deploy.yml@main
             secrets: inherit
+            with:
+                environment-name: homologacao
+                environment-url: http://homologacao.cesarags.com

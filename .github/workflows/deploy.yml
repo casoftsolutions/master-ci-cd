@@ -13,8 +13,8 @@ jobs:
         name: Deploy
         runs-on: ubuntu-latest
         environment: 
-            name: ${{ github.event.inputs.environment-name }}
-            url: ${{ github.event.inputs.environment-url }}
+            name: ${{ inputs.environment-name }}
+            url: ${{ inputs.environment-url }}
         steps:
             - name: Obtendo código do projeto
               uses: actions/checkout@v4
